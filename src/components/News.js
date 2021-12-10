@@ -5,18 +5,21 @@ import Spinner from './Spinner'
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function News(props) {
+
     const [articles, setArticls] = useState([])
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
     const [totalResults, setTotalResults] = useState(0)
+
     const updateNews = async () => {
-        props.setProgress(10)
+
+        props.setProgress(30)
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=f49d2db348554c5cb9203b65aa552662&page=${page}&pageSize=${props.pageSize}`
         setLoading(true)
-        let data = await fetch(url);
-        props.setProgress(40)
-        let parsedData = await data.json()
-        props.setProgress(70)
+        let data = await fetch(url);  //fetch data
+        props.setProgress(50)
+        let parsedData = await data.json()  //A Promise that resolves to a JavaScript object. This object could be anything that can be ////represented by JSON — an object, an array, a string, a number...
+        props.setProgress(90)
         setArticls(parsedData.articles);
         setTotalResults(parsedData.totalResults)
         setLoading(false)
@@ -24,12 +27,16 @@ export default function News(props) {
 
     }
 
+
+    // after rendering the coponent what should render then useEffect should be used
     useEffect(() => {
         updateNews();
         // eslint-disable-next-line
     }, [])
+
     const fetchMoreData = async () => {
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=f49d2db348554c5cb9203b65aa552662&page=${page+1}&pageSize=${props.pageSize}`
+
         setPage(page + 1)
         let data = await fetch(url);
         let parsedData = await data.json();
@@ -45,6 +52,7 @@ export default function News(props) {
                 next={fetchMoreData}
                 hasMore={articles.length !== totalResults} //aur data fetch kre ya aage ya nhi
                 loading={<Spinner />}>
+
                 <div className="container">
                     <div className="row my-3">
                         {articles.map((element) => {
@@ -54,6 +62,7 @@ export default function News(props) {
                         })}
                     </div>
                 </div>
+
             </InfiniteScroll>
         </>
     )

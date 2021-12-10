@@ -1,11 +1,12 @@
 import React from 'react'
 
 export default function Newsitem(props) {
-    // let {title,imageURL,author,newsURL,description} = props;
+
     return (
             <div className="card">
                 <span className="badge rounded-pill bg-danger"> {props.source} </span>
                 <img src={props.imageURL ? props.imageURL : "https://www.investors.com/wp-content/uploads/2020/04/Stock-BigWavePipe-08-adobe.jpg"} className="card-img-top" alt="..." />
+                
                 <div className="card-body">
                     <h5 className="card-title">{props.title}
                     </h5>
